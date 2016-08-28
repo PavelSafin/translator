@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Translator</title>
+    <meta name="description" content="The HTML5 Herald">
+    <meta name="author" content="Pavel Safin">
+
+<!--    <link rel="stylesheet" href="css/index.css">-->
+    <style>
+        .form-style-1 {
+            margin: 10px auto;
+            max-width: 500px;
+            padding: 20px 12px 10px 20px;
+            font: 13px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+        }
+        
+        .form-style-1 li {
+            padding: 0;
+            display: block;
+            list-style: none;
+            margin: 10px 0 0 0;
+        }
+        
+        .form-style-1 label {
+            margin: 0 0 3px 0;
+            padding: 0px;
+            display: block;
+            font-weight: bold;
+        }
+        
+        .form-style-1 input[type=text],
+        .form-style-1 input[type=date],
+        .form-style-1 input[type=datetime],
+        .form-style-1 input[type=number],
+        .form-style-1 input[type=search],
+        .form-style-1 input[type=time],
+        .form-style-1 input[type=url],
+        .form-style-1 input[type=email],
+        textarea,
+        select {
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            border: 1px solid #BEBEBE;
+            padding: 7px;
+            margin: 0px;
+            -webkit-transition: all 0.30s ease-in-out;
+            -moz-transition: all 0.30s ease-in-out;
+            -ms-transition: all 0.30s ease-in-out;
+            -o-transition: all 0.30s ease-in-out;
+            outline: none;
+        }
+        
+        .form-style-1 input[type=text]:focus,
+        .form-style-1 input[type=date]:focus,
+        .form-style-1 input[type=datetime]:focus,
+        .form-style-1 input[type=number]:focus,
+        .form-style-1 input[type=search]:focus,
+        .form-style-1 input[type=time]:focus,
+        .form-style-1 input[type=url]:focus,
+        .form-style-1 input[type=email]:focus,
+        .form-style-1 textarea:focus,
+        .form-style-1 select:focus {
+            -moz-box-shadow: 0 0 8px #88D5E9;
+            -webkit-box-shadow: 0 0 8px #88D5E9;
+            box-shadow: 0 0 8px #88D5E9;
+            border: 1px solid #88D5E9;
+        }
+        
+        .form-style-1 .field-divided {
+            width: 70%;
+        }
+        
+        .form-style-1 .field-long {
+            width: 100%;
+        }
+        
+        .form-style-1 .field-select {
+            width: 100%;
+        }
+        
+        .form-style-1 .field-textarea {
+            height: 100px;
+        }
+        
+        .form-style-1 input[type=submit],
+        .form-style-1 input[type=button] {
+            background: #4B99AD;
+            padding: 8px 15px 8px 15px;
+            border: none;
+            color: #fff;
+        }
+        
+        .form-style-1 input[type=submit]:hover,
+        .form-style-1 input[type=button]:hover {
+            background: #4691A4;
+            box-shadow: none;
+            -moz-box-shadow: none;
+            -webkit-box-shadow: none;
+        }
+        
+        .form-style-1 .required {
+            color: red;
+        }
+    </style>
+
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+    <form>
+        <ul class="form-style-1">
+            <li>
+                <label>Full Name</label>
+                <input id="fullName" type="text" name="field1" class="field-divided" placeholder="Please enter name" onkeyup="translateName()" />
+            </li>
+            <li>
+                <label>Translit</label>
+                <input id="resultName" type="text" name="field1" class="field-divided" />&nbsp;
+            </li>
+            <li>
+                <label>First name </label>
+                <input id="firstName" type="text" name="field1" class="field-divided" />&nbsp;
+                <input id="copyFirstName" type="button" value="copy" />
+            </li>
+            <li>
+                <label>Second name</label>
+                <input id="secondName" type="text" name="field1" class="field-divided" />&nbsp;
+                <input id="copySecondName" type="button" value="copy" />
+            </li>
+            <li>
+                <label>Middle name </label>
+                <input id="middleName" type="text" name="field1" class="field-divided" />&nbsp;
+                <input id="copyMiddleName" type="button" value="copy" />
+            </li>
+            <li>
+                <label>First nick </label>
+                <input id="firstNick" type="text" name="field1" class="field-divided" />&nbsp;
+                <input id="copyFirstNick" type="button" value="copy" />
+            </li>
+            <li>
+                <label>Second nick</label>
+                <input id="secondNick" type="text" name="field1" class="field-divided" />&nbsp;
+                <input id="copySecondNick" type="button" value="copy" />
+            </li>
+        </ul>
+    </form>
+
+    <script>
+        var copyFirstNick = document.getElementById('copyFirstNick'),
+            copySecondNick = document.getElementById('copySecondNick'),
+            copyFirstName = document.getElementById('copyFirstName'),
+            copySecondName = document.getElementById('copySecondName'),
+            copyMiddleName = document.getElementById('copyMiddleName');
+
+        copyFirstNick.addEventListener('click', function (event) {
+            "use strict";
+            var emailLink = document.getElementById('firstNick'),
+                range = document.createRange();
+            range.selectNode(emailLink);
+            window.getSelection().addRange(range);
+
+            try {
+                document.execCommand('copy');
+            } catch (err) {}
+
+            window.getSelection().removeAllRanges();
+        });
+
+
+        copySecondNick.addEventListener('click', function (event) {
+            "use strict";
+            var emailLink = document.getElementById('secondNick'),
+                range = document.createRange();
+            range.selectNode(emailLink);
+            window.getSelection().addRange(range);
+
+            try {
+                document.execCommand('copy');
+            } catch (err) {}
+
+            window.getSelection().removeAllRanges();
+        });
+
+        copyFirstName.addEventListener('click', function (event) {
+            "use strict";
+            var emailLink = document.getElementById('firstName'),
+                range = document.createRange();
+            range.selectNode(emailLink);
+            window.getSelection().addRange(range);
+
+            try {
+                document.execCommand('copy');
+            } catch (err) {}
+
+            window.getSelection().removeAllRanges();
+        });
+
+        copySecondName.addEventListener('click', function (event) {
+            "use strict";
+            var emailLink = document.getElementById('secondName'),
+                range = document.createRange();
+            range.selectNode(emailLink);
+            window.getSelection().addRange(range);
+
+            try {
+                document.execCommand('copy');
+            } catch (err) {}
+
+            window.getSelection().removeAllRanges();
+        });
+
+        copyMiddleName.addEventListener('click', function (event) {
+            "use strict";
+            var emailLink = document.getElementById('middleName'),
+                range = document.createRange();
+            range.selectNode(emailLink);
+            window.getSelection().addRange(range);
+
+            try {
+                document.execCommand('copy');
+            } catch (err) {}
+
+            window.getSelection().removeAllRanges();
+        });
+
+        transliterate = (
+            function () {
+                "use strict";
+                var rus = "щ   ш  ч  ц  ю  я  ё  ж  ы э а б в г д е з и й к л м н о п р с т у ф х  ъ  ь".split(/ +/g),
+                    eng = "sсh sh ch ts yu ya yo zh y e a b v g d e z i y k l m n o p r s t u f kh `` `".split(/ +/g);
+
+                return function (text) {
+                    var x;
+
+                    for (x = 0; x < rus.length; x += 1) {
+                        if (rus[x] === 'ъ' || rus[x] === 'ь') {
+                            text = text.split(rus[x]).join('');
+                            text = text.split(rus[x].toUpperCase()).join('');
+                        } else {
+                            text = text.split(rus[x]).join(eng[x]);
+                            text = text.split(rus[x].toUpperCase()).join(eng[x].toUpperCase());
+                        }
+                    }
+                    return text;
+                };
+            }
+        )();
+
+        String.prototype.replaceAt = function (index, character) {
+            "use strict";
+            return this.substr(0, index) + character + this.substr(index + character.length);
+        };
+
+        function translateName() {
+            "use strict";
+            var fullName = document.getElementById("fullName"),
+                resultName = document.getElementById("resultName"),
+                firstName = document.getElementById("firstName"),
+                secondName = document.getElementById("secondName"),
+                middleName = document.getElementById("middleName"),
+                firstNick = document.getElementById("firstNick"),
+                secondNick = document.getElementById("secondNick"),
+                name = [],
+                i;
+
+
+            name = fullName.value.trim().split(" ");
+            resultName.value = "";
+
+            for (i = 0; i < name.length; i += 1) {
+                name[i] = name[i].toLowerCase();
+                name[i] = name[i].replaceAt(0, name[i].charAt(0).toUpperCase());
+                resultName.value += name[i] + " ";
+            }
+
+            resultName.value = transliterate(resultName.value);
+            firstName.value = transliterate(name[0]);
+
+            if (name.length > 1) {
+                firstNick.value = transliterate(name[1].charAt(0).toLocaleLowerCase() + name[0].toLocaleLowerCase());
+                secondName.value = transliterate(name[1]);
+            } else {
+                firstNick.value = "";
+                secondName.value = "";
+            }
+
+            if (name.length > 2) {
+                secondNick.value = transliterate(name[0].toLocaleLowerCase() + '_' + name[1].charAt(0).toLocaleLowerCase() + name[2].charAt(0).toLocaleLowerCase());
+
+                middleName.value = transliterate(name[2]);
+            } else {
+                secondNick.value = "";
+                middleName.value = "";
+            }
+        }
+    </script>
+</body>
+
+</html>
